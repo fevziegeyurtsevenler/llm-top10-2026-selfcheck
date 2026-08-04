@@ -1,0 +1,41 @@
+OWASP LLM Top 10 (2026) Self-Assessment
+=======================================
+
+This project is an interactive self-assessment aid for the OWASP Top 10 for
+LLM Applications 2026. It is a self-assessment aid, not an audit or
+certification.
+
+Attribution
+-----------
+The risk categories, English titles, and identifiers (LLM01:2026 .. LLM10:2026)
+are the work of the OWASP GenAI Security Project:
+
+  OWASP Top 10 for LLM Applications 2026
+  OWASP GenAI Security Project
+  https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/
+  Published: 2026-08-04
+
+Official vs. unofficial
+-----------------------
+- The English risk titles and IDs are OFFICIAL and belong to the OWASP GenAI
+  Security Project.
+- The Turkish text in this repository is an UNOFFICIAL community translation.
+- The authoritative text is the English OWASP source.
+- The summaries, the yes/no self-assessment controls, and the 2025 -> 2026
+  change notes are editorial content grounded in the OWASP source; the change
+  notes reflect the official reordering/renaming and are not invented mappings.
+  No statistics, CVEs, incidents, or MITRE ATLAS identifiers are invented here.
+
+Affiliation
+-----------
+This is an independent project. It is NOT affiliated with, sponsored by, or
+endorsed by OWASP.
+
+Licensing
+---------
+- Text and data (the content of data.json and the framework description in
+  README.md) are licensed under Creative Commons Attribution-ShareAlike 4.0
+  International (CC BY-SA 4.0), matching the ShareAlike license of the OWASP
+  source: https://creativecommons.org/licenses/by-sa/4.0/
+- The application code (index.html and related tooling) is licensed under the
+  MIT License; see LICENSE.

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-ancestors 'none'">
+<meta name="referrer" content="no-referrer">
+<title>OWASP LLM Top 10 (2026) Self-Assessment Checklist</title>
+<meta name="description" content="Interactive OWASP Top 10 for LLM Applications 2026 checklist (LLM01-LLM10): an LLM application security self-assessment. Fully client-side, no data leaves your browser.">
+<style>
+  :root{
+    --bg:#f6f7f9; --panel:#ffffff; --ink:#14181f; --muted:#5a6472; --line:#e2e6ec;
+    --accent:#1f6feb; --accent-ink:#fff; --good:#1a7f4b; --warn:#b7791f; --bad:#c23b3b;
+    --chip:#eef2f7; --shadow:0 1px 3px rgba(20,24,31,.08),0 8px 24px rgba(20,24,31,.05);
+  }
+  @media (prefers-color-scheme:dark){
+    :root{--bg:#0d1117;--panel:#161b22;--ink:#e6edf3;--muted:#9aa4b2;--line:#232a33;
+      --accent:#4d9bff;--chip:#1c232d;--good:#3fb27f;--warn:#d6a24a;--bad:#e06a6a;
+      --shadow:0 1px 3px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3);}
+  }
+  :root[data-theme="dark"]{--bg:#0d1117;--panel:#161b22;--ink:#e6edf3;--muted:#9aa4b2;--line:#232a33;
+    --accent:#4d9bff;--chip:#1c232d;--good:#3fb27f;--warn:#d6a24a;--bad:#e06a6a;
+    --shadow:0 1px 3px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3);}
+  :root[data-theme="light"]{--bg:#f6f7f9;--panel:#fff;--ink:#14181f;--muted:#5a6472;--line:#e2e6ec;
+    --accent:#1f6feb;--chip:#eef2f7;--good:#1a7f4b;--warn:#b7791f;--bad:#c23b3b;
+    --shadow:0 1px 3px rgba(20,24,31,.08),0 8px 24px rgba(20,24,31,.05);}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  .wrap{max-width:940px;margin:0 auto;padding:20px 18px 80px}
+  header.top{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;justify-content:space-between;margin-bottom:6px}
+  h1{font-size:22px;margin:0 0 4px;letter-spacing:-.2px}
+  .sub{color:var(--muted);font-size:13.5px;margin:0}
+  .controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  button,.btn{font:inherit;cursor:pointer;border:1px solid var(--line);background:var(--panel);
+    color:var(--ink);border-radius:8px;padding:7px 12px;transition:.12s}
+  button:hover,.btn:hover{border-color:var(--accent)}
+  button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+  .seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .seg button{border:0;border-radius:0;padding:7px 12px}
+  .seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+  .note{background:var(--chip);border:1px solid var(--line);border-radius:10px;padding:11px 13px;
+    font-size:13px;color:var(--muted);margin:16px 0}
+  .note b{color:var(--ink)}
+  .note a{color:var(--accent)}
+  .summary{position:sticky;top:0;z-index:5;background:var(--panel);border:1px solid var(--line);
+    border-radius:12px;padding:14px 16px;box-shadow:var(--shadow);margin:18px 0 22px}
+  .summary-row{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+  .posture{font-size:15px}
+  .posture .pct{font-size:26px;font-weight:700}
+  .bar{height:9px;border-radius:6px;background:var(--chip);overflow:hidden;margin-top:8px}
+  .bar>span{display:block;height:100%;width:0;background:var(--good);transition:width .25s}
+  .risk{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:0;
+    margin:12px 0;box-shadow:var(--shadow);overflow:hidden}
+  .risk>summary{list-style:none;cursor:pointer;padding:14px 16px;display:flex;gap:12px;align-items:center}
+  .risk>summary::-webkit-details-marker{display:none}
+  .code{font:600 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--accent);
+    background:var(--chip);border:1px solid var(--line);border-radius:6px;padding:5px 7px;white-space:nowrap}
+  .rtitle{font-weight:650;flex:1;min-width:0}
+  .rscore{font:600 12px/1.2 ui-monospace,monospace;color:var(--muted);white-space:nowrap}
+  .dot{width:10px;height:10px;border-radius:50%;background:var(--chip);flex:none}
+  .dot.good{background:var(--good)} .dot.warn{background:var(--warn)} .dot.bad{background:var(--bad)}
+  .rbody{padding:2px 16px 16px;border-top:1px solid var(--line)}
+  .rsum{color:var(--muted);font-size:13.5px;margin:12px 0}
+  .q{display:flex;gap:11px;padding:10px 0;border-top:1px dashed var(--line)}
+  .q:first-of-type{border-top:0}
+  .q input{margin-top:3px;width:17px;height:17px;flex:none;accent-color:var(--accent)}
+  .q .qtext{flex:1}
+  .change{margin-top:12px;font-size:12.5px;color:var(--muted)}
+  .change .lbl{font-weight:600;color:var(--ink)}
+  .src{margin-top:10px;font-size:12px}
+  .src a{color:var(--accent)}
+  footer{margin-top:26px;color:var(--muted);font-size:12.5px;border-top:1px solid var(--line);padding-top:16px}
+  footer a{color:var(--accent)}
+  .export-out{width:100%;min-height:150px;margin-top:10px;font:12px/1.5 ui-monospace,monospace;
+    background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:10px;display:none}
+  .hidden{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1 id="h-title">OWASP LLM Top 10 (2026) Self-Assessment</h1>
+
+      <p class="sub" id="h-sub">Interactive LLM application security self-assessment &mdash; a checklist for the OWASP Top 10 for LLM Applications 2026 (LLM01&ndash;LLM10). Everything runs in your browser; nothing is sent anywhere.</p>
+    </div>
+    <div class="controls">
+      <div class="seg" role="group" aria-label="language">
+        <button id="lang-en" aria-pressed="true">EN</button>
+        <button id="lang-tr" aria-pressed="false">TR</button>
+      </div>
+      <button id="theme">&#9681;</button>
+    </div>
+  </header>
+
+  <noscript>
+    <div class="note"><b>JavaScript is required</b> for the interactive assessment. The full risk list, questions and change notes are also available as plain data in <code>data.json</code> in this repository. / Etkilesimli degerlendirme icin <b>JavaScript gereklidir</b>; tum icerik <code>data.json</code> dosyasinda duz veri olarak da mevcuttur.</div>
+  </noscript>
+
+  <div class="note" id="honesty"></div>
+
+  <div class="summary" id="summary">
+    <div class="summary-row">
+      <div class="posture">
+        <div><span class="pct" id="pct">0%</span> <span id="posture-word"></span></div>
+        <div class="bar"><span id="bar"></span></div>
+      </div>
+      <div class="controls">
+        <button id="expand">Expand all</button>
+        <button id="reset">Reset</button>
+        <button class="primary" id="copy">Copy JSON</button>
+        <button id="download">Download JSON</button>
+      </div>
+    </div>
+    <textarea class="export-out" id="export" readonly aria-label="report json"></textarea>
+  </div>
+
+  <div id="risks"></div>
+
+  <footer id="footer"></footer>
+</div>
+
+<script>
+"use strict";
+// ---- safe DOM helpers (no innerHTML with dynamic data) ----
+function el(tag, attrs, kids){
+  var n=document.createElement(tag);
+  if(attrs){for(var k in attrs){
+    if(k==="class")n.className=attrs[k];
+    else if(k==="text")n.textContent=attrs[k];
+    else if(k.slice(0,2)==="on")n.addEventListener(k.slice(2),attrs[k]);
+    else n.setAttribute(k,attrs[k]);
+  }}
+  if(kids)kids.forEach(function(c){ if(c!=null) n.appendChild(typeof c==="string"?document.createTextNode(c):c); });
+  return n;
+}
+function t(txt){return document.createTextNode(txt);}
+
+var DATA=null, LANG="en", STATE={}; // STATE[qid]=true/false
+
+var UI={
+  en:{title:"OWASP LLM Top 10 (2026) Self-Assessment",
+      sub:"Interactive LLM application security self-assessment — a checklist for the OWASP Top 10 for LLM Applications 2026 (LLM01–LLM10). Everything runs in your browser; nothing is sent anywhere.",
+      expand:"Expand all",collapse:"Collapse all",reset:"Reset",copy:"Copy JSON",copied:"Copied ✓",download:"Download JSON",
+      of:"of",covered:"controls in place",change:"2025 → 2026 change",source:"OWASP source",
+      posture:{strong:"Strong posture",moderate:"Moderate posture",weak:"Weak posture",none:"Not started"},
+      overall:"Overall coverage"},
+  tr:{title:"OWASP LLM Ilk 10 (2026) Oz-Degerlendirme",
+      sub:"Etkilesimli LLM uygulama guvenligi oz-degerlendirmesi — OWASP LLM Uygulamalari icin Ilk 10 (2026) (LLM01–LLM10) icin bir kontrol listesi. Her sey tarayicinizda calisir; hicbir veri gonderilmez.",
+      expand:"Tumunu ac",collapse:"Tumunu kapat",reset:"Sifirla",copy:"JSON kopyala",copied:"Kopyalandi ✓",download:"JSON indir",
+      of:"/",covered:"kontrol mevcut",change:"2025 → 2026 degisim",source:"OWASP kaynagi",
+      posture:{strong:"Guclu durus",moderate:"Orta durus",weak:"Zayif durus",none:"Baslanmadi"},
+      overall:"Genel kapsam"}
+};
+
+function riskField(r,base){return LANG==="tr"?r[base+"_tr"]:r[base];}
+function qText(q){return LANG==="tr"?q.text_tr:q.text;}
+
+function riskScore(r){
+  var y=0; r.questions.forEach(function(q){ if(STATE[q.id])y++; });
+  return {yes:y,total:r.questions.length};
+}
+function dotClass(f){return f>=0.8?"good":f>=0.4?"warn":"bad";}
+
+function render(){
+  var u=UI[LANG], m=DATA.meta;
+  document.documentElement.lang=LANG;
+  document.getElementById("h-title").textContent=u.title;
+  document.getElementById("h-sub").textContent=u.sub;
+  document.getElementById("lang-en").setAttribute("aria-pressed",LANG==="en");
+  document.getElementById("lang-tr").setAttribute("aria-pressed",LANG==="tr");
+
+  // honesty note
+  var hn=document.getElementById("honesty"); hn.textContent="";
+  var discl=LANG==="tr"?m.disclaimer_tr:m.disclaimer_en;
+  var tnote=LANG==="tr"?m.translation_note_tr:m.translation_note_en;
+  hn.appendChild(el("span",null,[el("b",{text:discl}),t(" ")]));
+  hn.appendChild(t(tnote+" "));
+  hn.appendChild(el("a",{href:m.source_url,target:"_blank",rel:"noopener",
+    text:(m.framework_en+" "+m.version)}));
+  hn.appendChild(t(" · "+(LANG==="tr"?"Yayin":"Published")+": "+m.published+" · "+(LANG==="tr"?"anlik goruntu":"snapshot")+": "+m.snapshot_date+"."));
+
+  // risks
+  var host=document.getElementById("risks"); host.textContent="";
+  DATA.risks.forEach(function(r){
+    var sc=riskScore(r), f=sc.total?sc.yes/sc.total:0;
+    var det=el("details",{class:"risk"});
+    det.dataset.rid=r.code;
+    var sum=el("summary",null,[
+      el("span",{class:"dot "+dotClass(f)}),
+      el("span",{class:"code",text:r.code}),
+      el("span",{class:"rtitle",text:riskField(r,"title")}),
+      el("span",{class:"rscore",text:sc.yes+" "+u.of+" "+sc.total})
+    ]);
+    det.appendChild(sum);
+
+    var body=el("div",{class:"rbody"});
+    body.appendChild(el("p",{class:"rsum",text:riskField(r,"summary")}));
+
+    r.questions.forEach(function(q){
+      var cb=el("input",{type:"checkbox",id:q.id});
+      cb.checked=!!STATE[q.id];
+      cb.addEventListener("change",function(){ STATE[q.id]=cb.checked; save(); updateScores(); });
+      var qwrap=el("div",{class:"q"},[
+        cb,
+        el("label",{class:"qtext",for:q.id},[ t(qText(q)) ])
+      ]);
+      body.appendChild(qwrap);
+    });
+
+    // 2025 -> 2026 change note (official OWASP reordering; no invented mappings)
+    var ch=el("div",{class:"change"});
+    ch.appendChild(el("span",{class:"lbl",text:u.change+": "}));
+    ch.appendChild(t(riskField(r,"change")));
+    body.appendChild(ch);
+
+    var src=el("div",{class:"src"},[
+      el("a",{href:r.source_url||m.source_url,target:"_blank",rel:"noopener",text:u.source+" ↗"})
+    ]);
+    body.appendChild(src);
+    det.appendChild(body);
+    host.appendChild(det);
+  });
+
+  renderFooter();
+  updateScores();
+  // buttons text
+  document.getElementById("reset").textContent=u.reset;
+  document.getElementById("copy").textContent=u.copy;
+  document.getElementById("download").textContent=u.download;
+  syncExpandLabel();
+}
+
+function updateScores(){
+  var u=UI[LANG], yes=0, total=0;
+  DATA.risks.forEach(function(r){
+    var sc=riskScore(r); yes+=sc.yes; total+=sc.total;
+    var det=document.querySelector('details[data-rid="'+CSS.escape(r.code)+'"]');
+    if(det){
+      var f=sc.total?sc.yes/sc.total:0;
+      det.querySelector(".dot").className="dot "+dotClass(f);
+      det.querySelector(".rscore").textContent=sc.yes+" "+u.of+" "+sc.total;
+    }
+  });
+  var pct=total?Math.round(yes/total*100):0;
+  document.getElementById("pct").textContent=pct+"%";
+  document.getElementById("bar").style.width=pct+"%";
+  var word;
+  if(yes===0)word=u.posture.none; else if(pct>=80)word=u.posture.strong;
+  else if(pct>=40)word=u.posture.moderate; else word=u.posture.weak;
+  document.getElementById("posture-word").textContent=u.overall+" · "+word+" ("+yes+"/"+total+")";
+  var col=pct>=80?"var(--good)":pct>=40?"var(--warn)":"var(--bad)";
+  document.getElementById("bar").style.background=(yes===0?"var(--chip)":col);
+}
+
+function buildReport(){
+  var m=DATA.meta, yes=0,total=0, risks=[];
+  DATA.risks.forEach(function(r){
+    var sc=riskScore(r); yes+=sc.yes; total+=sc.total;
+    risks.push({
+      id:r.code, title:r.title,
+      covered:sc.yes, total:sc.total,
+      coverage_pct: sc.total?Math.round(sc.yes/sc.total*100):0,
+      unmet: r.questions.filter(function(q){return !STATE[q.id];}).map(function(q){return q.id;})
+    });
+  });
+  return {
+    tool:"llm-top10-selfcheck",
+    disclaimer:"Self-assessment aid, not an audit or certification.",
+    framework:m.framework_en, version:m.version, framework_published:m.published,
+    source:m.source_url, generated_at:new Date().toISOString(),
+    overall:{covered:yes,total:total,coverage_pct:total?Math.round(yes/total*100):0},
+    risks:risks
+  };
+}
+function reportText(){return JSON.stringify(buildReport(),null,2);}
+
+function save(){ try{localStorage.setItem("llm-selfcheck",JSON.stringify(STATE));}catch(e){} }
+function load(){ try{var s=localStorage.getItem("llm-selfcheck"); if(s)STATE=JSON.parse(s)||{};}catch(e){STATE={};} }
+
+function renderFooter(){
+  var m=DATA.meta, f=document.getElementById("footer"); f.textContent="";
+  var idn=LANG==="tr"?m.id_prefix_note_tr:m.id_prefix_note_en;
+  var chn=LANG==="tr"?m.change_note_tr:m.change_note_en;
+  var lic=LANG==="tr"?m.license_tr:m.license_en;
+  f.appendChild(el("p",null,[t(idn)]));
+  f.appendChild(el("p",null,[t(chn)]));
+  f.appendChild(el("p",null,[t(lic)]));
+  var p=el("p"); p.appendChild(t((LANG==="tr"?"Kaynak":"Source")+": "));
+  p.appendChild(el("a",{href:m.source_url,target:"_blank",rel:"noopener",text:m.source_publisher}));
+  p.appendChild(t("."));
+  f.appendChild(p);
+}
+
+function syncExpandLabel(){
+  var all=[].slice.call(document.querySelectorAll("details.risk"));
+  var open=all.every(function(d){return d.open;});
+  document.getElementById("expand").textContent=open?UI[LANG].collapse:UI[LANG].expand;
+}
+
+// ---- wire controls ----
+function initControls(){
+  document.getElementById("lang-en").addEventListener("click",function(){LANG="en";render();});
+  document.getElementById("lang-tr").addEventListener("click",function(){LANG="tr";render();});
+  document.getElementById("theme").addEventListener("click",function(){
+    var cur=document.documentElement.getAttribute("data-theme");
+    var next=cur==="dark"?"light":(cur==="light"?"dark":(matchMedia("(prefers-color-scheme:dark)").matches?"light":"dark"));
+    document.documentElement.setAttribute("data-theme",next);
+    try{localStorage.setItem("llm-theme",next);}catch(e){}
+  });
+  document.getElementById("expand").addEventListener("click",function(){
+    var all=[].slice.call(document.querySelectorAll("details.risk"));
+    var open=all.every(function(d){return d.open;});
+    all.forEach(function(d){d.open=!open;});
+    syncExpandLabel();
+  });
+  document.getElementById("risks").addEventListener("toggle",syncExpandLabel,true);
+  document.getElementById("reset").addEventListener("click",function(){
+    STATE={}; save(); render();
+    document.getElementById("export").style.display="none";
+  });
+  document.getElementById("copy").addEventListener("click",function(){
+    var txt=reportText(), btn=this, u=UI[LANG];
+    var done=function(){btn.textContent=u.copied;setTimeout(function(){btn.textContent=u.copy;},1400);};
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done,function(){fallbackCopy(txt);done();});}
+    else{fallbackCopy(txt);done();}
+    var out=document.getElementById("export"); out.value=txt; out.style.display="block";
+  });
+  document.getElementById("download").addEventListener("click",function(){
+    var blob=new Blob([reportText()],{type:"application/json"});
+    var url=URL.createObjectURL(blob);
+    var a=el("a",{href:url,download:"llm-top10-selfcheck-report.json"});
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function(){URL.revokeObjectURL(url);},1000);
+  });
+}
+function fallbackCopy(txt){
+  var ta=document.getElementById("export"); ta.value=txt; ta.style.display="block";
+  ta.select(); try{document.execCommand("copy");}catch(e){}
+}
+
+// ---- boot: load data.json (same-origin static file) ----
+function boot(){
+  try{var th=localStorage.getItem("llm-theme"); if(th)document.documentElement.setAttribute("data-theme",th);}catch(e){}
+  load();
+  fetch("data.json").then(function(r){return r.json();}).then(function(d){
+    DATA=d; initControls(); render();
+  }).catch(function(){
+    document.getElementById("risks").appendChild(
+      el("div",{class:"note",text:"Could not load data.json. Serve this folder over HTTP (e.g. python3 -m http.server) and reload."}));
+  });
+}
+boot();
+</script>
+</body>
+</html>

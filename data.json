@@ -1,0 +1,353 @@
+{
+  "meta": {
+    "framework_en": "OWASP Top 10 for LLM Applications",
+    "framework_tr": "OWASP LLM Uygulamalari icin Ilk 10",
+    "version": "2026",
+    "published": "2026-08-04",
+    "snapshot_date": "2026-08",
+    "source_url": "https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/",
+    "source_publisher": "OWASP GenAI Security Project",
+    "id_prefix_note_en": "LLM01-LLM10 are the OWASP identifiers for the ten LLM application risk categories; the :2026 suffix denotes the 2026 edition.",
+    "id_prefix_note_tr": "LLM01-LLM10, on LLM uygulama risk kategorisi icin OWASP tanimlayicilaridir; :2026 son eki 2026 surumunu belirtir.",
+    "change_note_en": "The '2025 -> 2026 change' line on each risk reflects how the official 2026 list reorders or renames its 2025 edition; it is taken from the OWASP source, not an invented mapping.",
+    "change_note_tr": "Her riskteki '2025 -> 2026 degisim' satiri, resmi 2026 listesinin 2025 surumunu nasil yeniden siraladigini veya adlandirdigini yansitir; OWASP kaynagindan alinmistir, uydurma bir eslestirme degildir.",
+    "translation_note_en": "English risk titles and IDs are official and belong to the OWASP GenAI Security Project; the Turkish text is an unofficial community translation. The authoritative source is the English OWASP document, licensed CC BY-SA 4.0. This is an independent self-assessment aid, not affiliated with, sponsored by, or endorsed by OWASP.",
+    "translation_note_tr": "Ingilizce risk basliklari ve kimlikleri resmidir ve OWASP GenAI Security Project'e aittir; Turkce metin resmi olmayan bir topluluk cevirisidir. Yetkili kaynak, CC BY-SA 4.0 lisansli Ingilizce OWASP belgesidir. Bu bagimsiz bir oz-degerlendirme yardimcisidir; OWASP ile bagli, OWASP tarafindan desteklenen veya onaylanan bir arac degildir.",
+    "license_en": "Text and data are licensed CC BY-SA 4.0 (ShareAlike, matching the OWASP source); the application code is licensed MIT.",
+    "license_tr": "Metin ve veri CC BY-SA 4.0 (ShareAlike, OWASP kaynagiyla uyumlu) lisanslidir; uygulama kodu MIT lisanslidir.",
+    "disclaimer_en": "This is a self-assessment aid, not an audit or certification.",
+    "disclaimer_tr": "Bu bir oz-degerlendirme yardimcisidir; denetim veya sertifikasyon degildir."
+  },
+  "risks": [
+    {
+      "id": 1,
+      "code": "LLM01:2026",
+      "title": "Prompt Injection",
+      "title_tr": "Istem Enjeksiyonu",
+      "summary": "Input from any channel - direct user text, retrieved documents, tool output, images, audio, the reasoning trace, or memory - alters the model's behavior because there is no reliable boundary between instructions and data. In 2026 this is explicitly cross-modal.",
+      "summary_tr": "Herhangi bir kanaldan gelen girdi - dogrudan kullanici metni, getirilen belgeler, arac ciktisi, gorseller, ses, muhakeme izi veya bellek - talimatlar ile veri arasinda guvenilir bir sinir olmadigi icin modelin davranisini degistirir. 2026'da bu acikca coklu-kipseldir (cross-modal).",
+      "change": "Unchanged - remained LLM01 from the 2025 edition.",
+      "change_tr": "Degismedi - 2025 surumunden bu yana LLM01 olarak kaldi.",
+      "questions": [
+        {
+          "id": "llm01-q1",
+          "text": "Do you strip invisible Unicode - the tag block (U+E0000-U+E007F), variation selectors, and zero-width characters - at every ingest and render boundary?",
+          "text_tr": "Gorunmez Unicode karakterleri - etiket blogu (U+E0000-U+E007F), varyasyon seciciler ve sifir-genislikli karakterler - her alim ve gosterim sinirinda ayikliyor musunuz?"
+        },
+        {
+          "id": "llm01-q2",
+          "text": "Do you apply injection filtering at every input modality boundary - retrieved documents, tool outputs, images, and audio - and not just direct user text?",
+          "text_tr": "Enjeksiyon filtrelemesini yalnizca dogrudan kullanici metnine degil, her girdi kipi sinirinda - getirilen belgeler, arac ciktilari, gorseller ve ses - uyguluyor musunuz?"
+        },
+        {
+          "id": "llm01-q3",
+          "text": "Do you label each input with its provenance on a dedicated channel so the model can tell trusted instructions apart from untrusted data?",
+          "text_tr": "Modelin guvenilir talimatlari guvenilmeyen veriden ayirt edebilmesi icin her girdiyi kaynagiyla (provenance) ayri bir kanalda etiketliyor musunuz?"
+        },
+        {
+          "id": "llm01-q4",
+          "text": "Do you constrain the model's role and allowed behavior in the system prompt, while treating that constraint as only a partial defense rather than the sole one?",
+          "text_tr": "Modelin rolunu ve izin verilen davranisini sistem isteminde sinirliyor, ancak bu sinirlamayi tek savunma degil yalnizca kismi bir savunma olarak ele aliyor musunuz?"
+        },
+        {
+          "id": "llm01-q5",
+          "text": "Does application code enforce least privilege so that a hijacked model cannot act beyond the current user's own permissions?",
+          "text_tr": "Uygulama kodu, ele gecirilmis bir modelin mevcut kullanicinin kendi izinlerinin otesinde hareket edememesi icin en-az-yetki ilkesini uyguluyor mu?"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "code": "LLM02:2026",
+      "title": "Sensitive Information Disclosure",
+      "title_tr": "Hassas Bilgi Ifsasi",
+      "summary": "The model discloses sensitive data through its outputs - including the reasoning channel - because too much sensitive context is available to it and outputs are not filtered before they leave the system.",
+      "summary_tr": "Model, cok fazla hassas baglama erisebildigi ve ciktilar sistemden ayrilmadan once filtrelenmedigi icin ciktilari - muhakeme kanali dahil - araciligiyla hassas veriyi ifsa eder.",
+      "change": "Unchanged - remained LLM02 from the 2025 edition.",
+      "change_tr": "Degismedi - 2025 surumunden bu yana LLM02 olarak kaldi.",
+      "questions": [
+        {
+          "id": "llm02-q1",
+          "text": "Do you restrict the sensitive data placed into the model's context to only what the current task requires?",
+          "text_tr": "Modelin baglamina yerlestirilen hassas veriyi yalnizca mevcut gorevin gerektirdigiyle sinirliyor musunuz?"
+        },
+        {
+          "id": "llm02-q2",
+          "text": "Do you filter model outputs for sensitive data before they reach the user or any downstream system?",
+          "text_tr": "Model ciktilarini, kullaniciya veya herhangi bir alt sisteme ulasmadan once hassas veri acisindan filtreliyor musunuz?"
+        },
+        {
+          "id": "llm02-q3",
+          "text": "Do you apply the same disclosure filtering to the model's reasoning/thinking channel as to its final answer?",
+          "text_tr": "Ayni ifsa filtrelemesini modelin muhakeme/dusunme kanalina, nihai cevabina uyguladiginiz gibi uyguluyor musunuz?"
+        },
+        {
+          "id": "llm02-q4",
+          "text": "Do you detect and redact personal data (PII) in both inputs and outputs?",
+          "text_tr": "Kisisel verileri (PII) hem girdilerde hem ciktilarda tespit edip maskeliyor (redaksiyon) musunuz?"
+        },
+        {
+          "id": "llm02-q5",
+          "text": "Do you keep secrets and credentials out of the context so the model has nothing sensitive to echo back?",
+          "text_tr": "Modelin geri yansitacagi hassas bir sey olmamasi icin sirlari ve kimlik bilgilerini baglamin disinda tutuyor musunuz?"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "code": "LLM03:2026",
+      "title": "Excessive Agency",
+      "title_tr": "Asiri Yetki",
+      "summary": "Excessive functionality, permission, or autonomy lets a compromised model take consequential actions outside the chat - triggering tools, moving money, or changing systems - because too much power was delegated to the model itself.",
+      "summary_tr": "Asiri islevsellik, izin veya ozerklik, ele gecirilmis bir modelin sohbetin disinda sonuc doguran eylemler yapmasina - araclari tetikleme, para transferi veya sistemleri degistirme - izin verir; cunku modelin kendisine cok fazla guc devredilmistir.",
+      "change": "Up - was LLM06 (Excessive Agency) in the 2025 edition.",
+      "change_tr": "Yukseldi - 2025 surumunde LLM06 (Asiri Yetki) idi.",
+      "questions": [
+        {
+          "id": "llm03-q1",
+          "text": "Do you grant the model the minimum functionality, permissions, and autonomy needed for the task (least functionality, least permission, least autonomy)?",
+          "text_tr": "Modele gorev icin gereken asgari islevselligi, izinleri ve ozerkligi mi veriyorsunuz (en-az-islevsellik, en-az-izin, en-az-ozerklik)?"
+        },
+        {
+          "id": "llm03-q2",
+          "text": "Do you apply the Rule of Two so a single flow does not combine untrusted input, access to private data, and the ability to cause external side effects unsupervised?",
+          "text_tr": "Tek bir akisin denetimsiz olarak guvenilmeyen girdiyi, ozel veriye erisimi ve dis yan etki yaratma yetenegini bir arada barindirmamasi icin Ikili Kurali'ni (Rule of Two) uyguluyor musunuz?"
+        },
+        {
+          "id": "llm03-q3",
+          "text": "Are consequential actions authorized by a deterministic policy engine rather than by the model's own judgment?",
+          "text_tr": "Sonuc doguran eylemler, modelin kendi takdirine degil, deterministik bir politika motoruna gore mi yetkilendiriliyor?"
+        },
+        {
+          "id": "llm03-q4",
+          "text": "Do high-impact actions require explicit human approval before they execute?",
+          "text_tr": "Yuksek-etkili eylemler, yurutulmeden once acik insan onayi gerektiriyor mu?"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "code": "LLM04:2026",
+      "title": "Supply Chain",
+      "title_tr": "Tedarik Zinciri",
+      "summary": "Third-party models, tool packages, and the model artifact itself may not be what they claim to be. Without integrity verification and inventory, a tampered or substituted component enters the system unnoticed.",
+      "summary_tr": "Ucuncu-taraf modeller, arac paketleri ve model yapitinin kendisi, iddia ettikleri sey olmayabilir. Butunluk dogrulamasi ve envanter olmadan, kurcalanmis veya degistirilmis bir bilesen sisteme fark edilmeden girer.",
+      "change": "Down - was LLM03 (Supply Chain) in the 2025 edition.",
+      "change_tr": "Dustu - 2025 surumunde LLM03 (Tedarik Zinciri) idi.",
+      "questions": [
+        {
+          "id": "llm04-q1",
+          "text": "Do you verify the signature or hash of every model artifact and tool package before you use it?",
+          "text_tr": "Her model yapitinin ve arac paketinin imzasini veya ozetini (hash), kullanmadan once dogruluyor musunuz?"
+        },
+        {
+          "id": "llm04-q2",
+          "text": "Do you maintain an SBOM / AI-BOM covering the models, tools, and dependencies in each deployment?",
+          "text_tr": "Her dagitimdaki modelleri, araclari ve bagimliliklari kapsayan bir SBOM / AI-BOM tutuyor musunuz?"
+        },
+        {
+          "id": "llm04-q3",
+          "text": "Do you pin third-party models and tools to specific versions and review them before adopting them?",
+          "text_tr": "Ucuncu-taraf modelleri ve araclari belirli surumlere sabitleyip, benimsemeden once inceliyor musunuz?"
+        },
+        {
+          "id": "llm04-q4",
+          "text": "Do you re-verify integrity when a model or tool is updated, to catch a swapped or tampered artifact?",
+          "text_tr": "Degistirilmis veya kurcalanmis bir yapiti yakalamak icin, bir model veya arac guncellendiginde butunlugu yeniden dogruluyor musunuz?"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "code": "LLM05:2026",
+      "title": "Data and Model Poisoning",
+      "title_tr": "Veri ve Model Zehirlenmesi",
+      "summary": "Poisoned pre-training, fine-tuning, or embedding data - or tampered weights - corrupt the model's behavior. The 2026 edition absorbs fine-tuning subversion, where an exposed fine-tuning path is used to bend the model.",
+      "summary_tr": "Zehirlenmis on-egitim, ince-ayar veya gomme (embedding) verisi - ya da kurcalanmis agirliklar - modelin davranisini bozar. 2026 surumu, aciga cikmis bir ince-ayar yolunun modeli egmek icin kullanildigi ince-ayar sabotajini da kapsar.",
+      "change": "Down - was LLM04 (Data and Model Poisoning) in the 2025 edition.",
+      "change_tr": "Dustu - 2025 surumunde LLM04 (Veri ve Model Zehirlenmesi) idi.",
+      "questions": [
+        {
+          "id": "llm05-q1",
+          "text": "Do you track provenance and lineage for pre-training, fine-tuning, and embedding data?",
+          "text_tr": "On-egitim, ince-ayar ve gomme verisi icin kaynak (provenance) ve soy (lineage) takibi yapiyor musunuz?"
+        },
+        {
+          "id": "llm05-q2",
+          "text": "Do you run anomaly detection over training data and model behavior to catch poisoning?",
+          "text_tr": "Zehirlenmeyi yakalamak icin egitim verisi ve model davranisi uzerinde anomali tespiti calistiriyor musunuz?"
+        },
+        {
+          "id": "llm05-q3",
+          "text": "Do you vet and review fine-tuning datasets before they are used?",
+          "text_tr": "Ince-ayar veri kumelerini kullanilmadan once inceleyip degerlendiriyor musunuz?"
+        },
+        {
+          "id": "llm05-q4",
+          "text": "Do you restrict exposure of the fine-tuning API so it cannot be used to subvert the model?",
+          "text_tr": "Ince-ayar API'sinin modeli sabote etmek icin kullanilamamasi icin erisimini kisitliyor musunuz?"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "code": "LLM06:2026",
+      "title": "Unbounded Consumption",
+      "title_tr": "Sinirsiz Tuketim",
+      "summary": "Uncontrolled resource and cost exhaustion - denial-of-wallet, denial-of-service, and model extraction - occurs when there are no limits on request volume, runtime, or output size.",
+      "summary_tr": "Istek hacmi, calisma suresi veya cikti boyutu uzerinde sinir olmadiginda kontrolsuz kaynak ve maliyet tukenmesi - cuzdan-tuketimi (denial-of-wallet), hizmet-engelleme ve model cikarimi - meydana gelir.",
+      "change": "Up - was LLM10 (Unbounded Consumption) in the 2025 edition.",
+      "change_tr": "Yukseldi - 2025 surumunde LLM10 (Sinirsiz Tuketim) idi.",
+      "questions": [
+        {
+          "id": "llm06-q1",
+          "text": "Do you enforce per-user and per-session rate limits and quotas on model calls?",
+          "text_tr": "Model cagrilarinda kullanici-basi ve oturum-basi hiz sinirlari ve kotalar uyguluyor musunuz?"
+        },
+        {
+          "id": "llm06-q2",
+          "text": "Do you apply timeouts and throttling to long-running or runaway requests?",
+          "text_tr": "Uzun-suren veya kontrolden cikan isteklere zaman asimlari ve kisitlama (throttling) uyguluyor musunuz?"
+        },
+        {
+          "id": "llm06-q3",
+          "text": "Do you cap output length and token consumption per request?",
+          "text_tr": "Istek basina cikti uzunlugunu ve jeton (token) tuketimini sinirliyor musunuz?"
+        },
+        {
+          "id": "llm06-q4",
+          "text": "Do you monitor spend and set alerts to catch denial-of-wallet and abuse early?",
+          "text_tr": "Cuzdan-tuketimini ve suistimali erken yakalamak icin harcamayi izleyip uyarilar kuruyor musunuz?"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "code": "LLM07:2026",
+      "title": "Misinformation",
+      "title_tr": "Yanlis Bilgilendirme",
+      "summary": "Fluent, confident but wrong output drives a wrong decision or tool call. Without grounding, human oversight, and validation of suggested identifiers, users trust output that is not true - including slopsquatting via hallucinated package names.",
+      "summary_tr": "Akici, kendinden emin ancak yanlis cikti, yanlis bir karara veya arac cagrisina yol acar. Temellendirme, insan gozetimi ve onerilen tanimlayicilarin dogrulanmasi olmadan kullanicilar dogru olmayan ciktiya guvenir - halusinasyonla uretilen paket adlari araciligiyla slopsquatting dahil.",
+      "change": "Up - was LLM09 (Misinformation) in the 2025 edition.",
+      "change_tr": "Yukseldi - 2025 surumunde LLM09 (Yanlis Bilgilendirme) idi.",
+      "questions": [
+        {
+          "id": "llm07-q1",
+          "text": "Do you ground answers with retrieval (RAG) and require citations the user can verify?",
+          "text_tr": "Cevaplari getirimle (RAG) temellendirip, kullanicinin dogrulayabilecegi atiflar (citation) zorunlu kiliyor musunuz?"
+        },
+        {
+          "id": "llm07-q2",
+          "text": "Do consequential decisions keep human oversight rather than acting on model output alone?",
+          "text_tr": "Sonuc doguran kararlar, yalnizca model ciktisina gore hareket etmek yerine insan gozetimini koruyor mu?"
+        },
+        {
+          "id": "llm07-q3",
+          "text": "Do you label AI-generated content so users know it may be incorrect?",
+          "text_tr": "Kullanicilarin yanlis olabilecegini bilmesi icin yapay-zeka uretimi icerigi etiketliyor musunuz?"
+        },
+        {
+          "id": "llm07-q4",
+          "text": "Do you validate package names and other identifiers the model suggests before installing or acting on them, to prevent slopsquatting?",
+          "text_tr": "Slopsquatting'i onlemek icin modelin onerdigi paket adlarini ve diger tanimlayicilari, kurmadan veya uzerlerine islem yapmadan once dogruluyor musunuz?"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "code": "LLM08:2026",
+      "title": "Hidden Context Exposure",
+      "title_tr": "Gizli Baglam Ifsasi",
+      "summary": "Failure to keep information out of reach - the system prompt and any hidden context or state - lets an attacker extract it. The successor to System Prompt Leakage, it treats the system prompt as non-secret and pushes real secrets and access control outside the model.",
+      "summary_tr": "Bilgiyi erisim disinda tutmadaki basarisizlik - sistem istemi ve herhangi bir gizli baglam veya durum - bir saldirganin onu cikarmasina izin verir. Sistem Istemi Sizintisi'nin (System Prompt Leakage) ardili olarak, sistem istemini gizli-olmayan kabul eder ve gercek sirlari ile erisim kontrolunu modelin disina cikarir.",
+      "change": "Renamed - was LLM07 System Prompt Leakage in the 2025 edition.",
+      "change_tr": "Yeniden adlandirildi - 2025 surumunde LLM07 Sistem Istemi Sizintisi idi.",
+      "questions": [
+        {
+          "id": "llm08-q1",
+          "text": "Do you keep secrets and credentials out of the system prompt and any hidden context entirely?",
+          "text_tr": "Sirlari ve kimlik bilgilerini sistem isteminin ve herhangi bir gizli baglamin tamamen disinda tutuyor musunuz?"
+        },
+        {
+          "id": "llm08-q2",
+          "text": "Do you design the system as if the system prompt were public - treating it as non-secret?",
+          "text_tr": "Sistemi, sistem istemi herkese acikmis gibi - onu gizli-olmayan kabul ederek - tasarliyor musunuz?"
+        },
+        {
+          "id": "llm08-q3",
+          "text": "Is access control enforced by an independent guardrail outside the model rather than delegated to the model?",
+          "text_tr": "Erisim kontrolu, modele devredilmek yerine modelin disindaki bagimsiz bir koruma bariyeri (guardrail) tarafindan mi uygulaniyor?"
+        },
+        {
+          "id": "llm08-q4",
+          "text": "Do you keep hidden state and context that must not be disclosed out of the model's reach entirely?",
+          "text_tr": "Ifsa edilmemesi gereken gizli durumu ve baglami, modelin erisiminden tamamen uzak tutuyor musunuz?"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "code": "LLM09:2026",
+      "title": "Vector and Embedding Weaknesses",
+      "title_tr": "Vektor ve Gomme Zayifliklari",
+      "summary": "Retrieval poisoning, embedding inversion, and cross-context or cross-tenant leakage in RAG pipelines expose or corrupt data. Weak permission handling and unvetted ingestion turn the vector store into an attack surface.",
+      "summary_tr": "RAG ardisik dizilerinde getirim zehirlenmesi, gomme tersine cevirme (embedding inversion) ve baglamlar-arasi veya kiracilar-arasi sizinti veriyi ifsa eder veya bozar. Zayif izin yonetimi ve incelenmemis alim, vektor deposunu bir saldiri yuzeyine cevirir.",
+      "change": "Down - was LLM08 (Vector and Embedding Weaknesses) in the 2025 edition.",
+      "change_tr": "Dustu - 2025 surumunde LLM08 (Vektor ve Gomme Zayifliklari) idi.",
+      "questions": [
+        {
+          "id": "llm09-q1",
+          "text": "Is retrieval permission-aware, so users only receive chunks they are authorized to see?",
+          "text_tr": "Getirim izin-farkinda mi, boylece kullanicilar yalnizca goruntulemeye yetkili olduklari parcalari mi aliyor?"
+        },
+        {
+          "id": "llm09-q2",
+          "text": "Do you enforce tenant isolation in the vector store to prevent cross-tenant leakage?",
+          "text_tr": "Kiracilar-arasi sizintiyi onlemek icin vektor deposunda kiraci izolasyonu uyguluyor musunuz?"
+        },
+        {
+          "id": "llm09-q3",
+          "text": "Do you validate and sanitize documents before ingesting them into the vector store?",
+          "text_tr": "Belgeleri vektor deposuna almadan once dogrulayip temizliyor musunuz?"
+        },
+        {
+          "id": "llm09-q4",
+          "text": "Do you audit the vector store for poisoned or anomalous entries?",
+          "text_tr": "Vektor deposunu zehirlenmis veya anormal girisler acisindan denetliyor musunuz?"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "code": "LLM10:2026",
+      "title": "Improper Output Handling",
+      "title_tr": "Uygunsuz Cikti Isleme",
+      "summary": "Insufficient validation or sanitization of model output before a downstream system acts on it leads to injection and unsafe execution. The 2026 edition now spans the insecure code that assistants generate at scale.",
+      "summary_tr": "Bir alt sistem uzerine islem yapmadan once model ciktisinin yetersiz dogrulanmasi veya temizlenmesi, enjeksiyona ve guvensiz yurutmeye yol acar. 2026 surumu artik yardimcilarin buyuk olcekte urettigi guvensiz kodu da kapsar.",
+      "change": "Down - was LLM05 (Improper Output Handling) in the 2025 edition.",
+      "change_tr": "Dustu - 2025 surumunde LLM05 (Uygunsuz Cikti Isleme) idi.",
+      "questions": [
+        {
+          "id": "llm10-q1",
+          "text": "Do you validate model output against a strict schema in trusted application code, rather than relying on a second LLM to check it?",
+          "text_tr": "Model ciktisini, kontrol icin ikinci bir LLM'e guvenmek yerine, guvenilir uygulama kodunda kati bir semaya gore mi dogruluyorsunuz?"
+        },
+        {
+          "id": "llm10-q2",
+          "text": "Do you apply context-aware encoding to model output before it reaches HTML, SQL, shell, or other interpreters?",
+          "text_tr": "Model ciktisina, HTML, SQL, kabuk (shell) veya diger yorumlayicilara ulasmadan once baglam-farkinda kodlama uyguluyor musunuz?"
+        },
+        {
+          "id": "llm10-q3",
+          "text": "Do you sandbox or parametrize any action driven by model output instead of executing it directly?",
+          "text_tr": "Model ciktisinin tetikledigi eylemleri dogrudan yurutmek yerine korumali alanda calistiriyor veya parametrelestiriyor musunuz?"
+        },
+        {
+          "id": "llm10-q4",
+          "text": "Do you review code that assistants generate before it is committed or run?",
+          "text_tr": "Yardimcilarin urettigi kodu, kaydedilmeden veya calistirilmadan once inceliyor musunuz?"
+        }
+      ]
+    }
+  ]
+}

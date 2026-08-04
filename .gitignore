@@ -1,0 +1,15 @@
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/
+
+# Node / tooling (not used at runtime, but keep the tree clean)
+node_modules/
+npm-debug.log*
+
+# Local build / export artifacts
+*.log
+llm-top10-selfcheck-report.json
