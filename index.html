@@ -123,7 +123,7 @@
 
 <script>
 "use strict";
-// ---- safe DOM helpers (no innerHTML with dynamic data) ----
+// ---- safe DOM helpers (all dynamic text via textContent only) ----
 function el(tag, attrs, kids){
   var n=document.createElement(tag);
   if(attrs){for(var k in attrs){
