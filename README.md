@@ -1,5 +1,7 @@
 # OWASP LLM Top 10 (2026) Self-Assessment
 
+**Canlı demo / Live demo:** https://huggingface.co/spaces/fevziegeyurtsevenler/llm-top10-2026-selfcheck
+
 An interactive, single-file self-assessment checklist for the **OWASP Top 10 for
 LLM Applications 2026** (LLM01–LLM10). It runs entirely in your browser: check
 off the controls you have in place and see a per-risk and overall coverage
@@ -48,6 +50,11 @@ endorsed by OWASP**.
 OWASP Top 10 for LLM Applications 2026 — OWASP GenAI Security Project:
 <https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/>
 (published 2026-08-04).
+
+## İlgili yazılar / Related articles
+
+- [OWASP LLM Top 10 2026 CISO Özeti — Yöneticiler İçin Karar Rehberi](https://altaysec.com.tr/arastirmalar/owasp-llm-top10-2026-ciso-yonetici-ozeti)
+- [OWASP LLM Top 10 2026 mı, Agentic Top 10 mı? Hangi Liste Ne Zaman](https://altaysec.com.tr/arastirmalar/llm-top10-2026-vs-agentic-top10)
 
 ## Licensing
 
